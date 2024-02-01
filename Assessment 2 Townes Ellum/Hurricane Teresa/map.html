@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Marker</title>
+</head>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+crossorigin=""></script>
+<style>
+    #map { height: 500px;  }
+</style>
+<body>
+    <a href="https://en.wikipedia.org/wiki/2021_Atlantic_hurricane_season#Subtropical_Storm_Teresa"><h1>Sub-tropical Storm Teresa</h1></a>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/76/99L_2021-09-24_1710Z.jpg" alt="https://upload.wikimedia.org/wikipedia/commons/7/76/99L_2021-09-24_1710Z.jpg" width="232" height="295" class="shrinkToFit">
+    <div id="map"></div>
+    <!-- Script tag with an address to the source of a js script -->
+    <script src="TERESA.js"></script>
+    <script>
+        var bermuda = [32.30, -64.79]
+        var stormCenter = [34.3, -65.2]
+        var map = L.map('map').setView(stormCenter, 6);
+        var OSM = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                    }).addTo(map);
+        var Esri_OceanBasemap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri',
+	maxZoom: 13});
+        
+        
+        var marker = L.marker(bermuda).bindPopup("<b>Bermuda!</b>").addTo(map);
+        
+        //L.geoJSON(TERESA).addTo(map);
+
+        var geojsonMarkerOptions = {
+            radius: 10,
+            fillColor: "00008B",
+            color: "#33f3ff",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        };
+
+        var teresaWaypoints = L.geoJSON(TERESA, {
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, geojsonMarkerOptions);
+            }
+        }).addTo(map);
+
+        var lat = TERESA.features[0].geometry.coordinates[0];
+        var long = TERESA.features[0].geometry.coordinates[1];
+        var coord = [lat,long];
+        var myFirstPoint = L.marker(coord).addTo(map);
+
+        var baseMaps = {
+            "OpenStreetMap": OSM,
+            "Esri Images":Esri_OceanBasemap
+        };
+
+        var overlayMaps = {
+            "GPS":teresaWaypoints,
+        };
+
+        var layerControl = L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+    </script>
+    <!-- <script src="./data/javascriptLines.js"></script> -->
+</body>
+</html>
