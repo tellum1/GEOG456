@@ -1,4 +1,4 @@
-var orangebelliedparrot_data = {
+var data1 = {
     "type": "FeatureCollection",
     "name": "orangebelliedparrot_data",
     "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
