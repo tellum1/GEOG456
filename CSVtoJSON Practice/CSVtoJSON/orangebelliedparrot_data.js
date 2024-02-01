@@ -1,6 +1,6 @@
-var orangeparrot_data = {
+var orangebelliedparrot_data = {
     "type": "FeatureCollection",
-    "name": "orangeparrot_data",
+    "name": "orangebelliedparrot_data",
     "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
     "features": [
     { "type": "Feature", "properties": { "eventDate": "2003-08-20T00:00:00Z", "year": 2003, "month": 8, "day": 20, "decimalLatitude": -33.92, "decimalLongitude": 151.25, "geodeticDatum": "EPSG:4326", "scientificName": "Neophema (Neonanodes) chrysogaster" }, "geometry": { "type": "Point", "coordinates": [ 151.25, -33.92 ] } },
