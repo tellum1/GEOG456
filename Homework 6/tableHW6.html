@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<script src="data.js"></script>
+<body>
+
+<h2>Orange-Bellied Parrot Observations</h2>
+
+<table id="myTable">
+  <tr>
+    <th>Date</th>
+    <th>Latitude</th>
+    <th>Longitude</th>
+  </tr>
+  
+</table>
+
+</body>
+<script>
+  var x = document.getElementById('myTable')
+
+  for (var i =0; i<data.features.length; i++){
+    var myNewRow = document.createElement('tr');
+    var myNewCell1 = document.createElement('td');
+    var myNewCell2 = document.createElement('td');
+    var myNewCell3 = document.createElement('td');
+    myNewCell1.innerText = data.features[i].properties.year;
+    myNewCell2.innerText = data.features[i].properties.decimalLatitude;
+    myNewCell3.innerText = data.features[i].properties.decimalLongitude;
+    myNewRow.append(myNewCell1)
+    myNewRow.append(myNewCell2)
+    myNewRow.append(myNewCell3)
+    x.append(myNewRow)
+
+  }
+</script>
+</html>
+
