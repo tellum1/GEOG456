@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+ #daGreenBox {
+        position:absolute;
+        top:25%;
+        width:100%;
+        height:50%;
+        background-color: green;
+
+    }
+
+    .daOrangeBox{
+        position:absolute;
+        top:25%;
+        left:25%;
+        width:50%;
+        height:75%;
+        background-color: orange;
+    }
+
+    h1{
+        cursor:cell;
+        position:relative;
+        text-align:center;
+        top:25%;
+    }
+
+
+</style>
+
+<body>
+<script src="data.js"> </script>
+<script>
+
+var years = data.features.map(e => e.properties.year)
+
+</script>
+<a href="orangebelliedparrot_data.geojson"><p>geoJSON file!!!</p></a>
+
+<div id="daGreenBox">
+    <div class="daOrangeBox"; onclick="console.log(years)">
+        <h1>Click here to view an array in the console showing the year of each orange-bellied parrot observation!</h1>
+    </div>
+</div>
+
+</body>
+</html>
