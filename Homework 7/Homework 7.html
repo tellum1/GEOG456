@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Townes Ellum Leaflet HW 7</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+    integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+    crossorigin=""></script>
+    <script src="EAB_infested_counties.js"></script>
+</head>
+    <style>
+        #map {
+            width: 80%;
+            height: 600px;
+            background-color: lightblue;
+        }
+    </style>
+
+<body>
+
+<h2>Emerald Ash Borer Known Infested Counties</h2>
+<h3>Townes Ellum - Leaflet HW7</h3>
+        <h3 id = daYear>Year</h3>
+        <input id = "yearSlider" type="range" name="year" min="2002" max="2024" oninput="moveSlider(this.value)" value="2002">
+    <br></br>
+    <div id="map"></div>
+
+
+</body>
+<script>
+    //HW made by Sarah Followill // Edited and annotated by J Arce
+
+    var map = L.map('map').setView([35.75, -84.39], 4);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    }).addTo(map);
+
+    function myStyle(features) {
+        //console.log(features.properties.DATE) // This the property with the DATE value. 
+        return {
+    "color": getColor(features.properties.PPQ_EAB__6), // the color is obtained from the getColor function
+    "weight": 1,
+    "opacity": 0.65
+        }
+    };
+
+    function getColor(d) {
+        return d < myCurrentSelectionYear ? "green" : // The getColor has a parameter d which in our case is the value of a Year. If the Year is less than the Year selected in the slider, then we get blue, otherwise it returns gray
+                    "gray blue" ;
+    }
+
+    var geojson = L.geoJSON(EAB_infested_counties, {style: myStyle}).addTo(map); // the entire geojson is displayed
+
+
+    var myCurrentSelectionYear = 2002 // the initial year to start the data
+
+    function moveSlider(value) { // function called by the slider that receives the value from the slider. 
+        // console.log(value)
+        document.getElementById('daYear').innerHTML = 'Year: ' + value // assign the value of year into the text
+        myCurrentSelectionYear = value // reassign the new selected year value
+        geojson.resetStyle() // leaflet method to reassign a Style. 
+        // console.log(myCurrentSelectionYear)
+    }
+
+    moveSlider(myCurrentSelectionYear) // run the function moveSlider with the year 1840 to start with our first year. 
+
+
+
+    window.onload = function() {
+        document.getElementById('yearSlider').value = 1840;  
+    }; // I added this section to make sure that the slider goes back to 1840 after refreshing
+
+</script>   
+<br>
+<a href = "https://usda-mrp.maps.arcgis.com/home/item.html?id=1dfcee71467846d6ac8beea04d2cf6b3">
+    Link to Data Source (USDA)</a>
+</br>
+</body>
+</html>
