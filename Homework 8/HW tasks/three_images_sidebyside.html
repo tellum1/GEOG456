@@ -1,0 +1,60 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* Most CSS created using ChatGPT */
+        body {
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+            overflow-x: hidden; /* Prevent overflow: something you might want to have for maps on a cellphone screen */
+            background-color: black; /* Just for demonstration */
+            color: white;
+        }
+
+        .row {
+            width: 95vw;
+            background-color: rgb(28, 28, 28); /* Just for demonstration */
+            padding: 20px;
+            border: 1px solid black;
+            display: flex;
+            flex-wrap: wrap; /* Allow flex items to wrap to the next line */
+            justify-content: space-between; /* Distribute items evenly along the main axis */
+        }
+
+        p {
+            padding-top: 1%;
+            padding-right: 5%;
+            padding-left: 5%;
+        }
+
+        /* Creates three equal columns */
+        .column {
+            flex: 0 0 calc(33.33% - 20px); /* 33.33% of the parent container minus padding */
+            padding: 10px;
+            overflow: hidden; /* Prevent overflow */
+        }
+
+        img {
+            width: 100%; /* Make images fill their parent container */
+            display: block; /* Remove extra space below images */
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Three Images Side by Side</h1>
+    <div class="row">
+        <div class="column">
+            <img src="./pngs/2010_unmatched.png" alt="1933">
+        </div>
+        <div class="column">
+            <img src="./pngs/2010.png" alt="1933">
+        </div>
+        <div class="column">
+            <img src="./pngs/2020.png" alt="1983">
+        </div>
+    </div>
+
+    <p>These photos show the area around my high school in the years 2010 and 2020. The far left photo is the 2010 photo, prior to histogram matching.</p>
+</body>
+</html>

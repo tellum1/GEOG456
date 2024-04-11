@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    img{
+        position: absolute;
+        height: 400px;
+    }
+    button{
+        position: absolute;
+        top: 400px;
+    }
+
+    p{
+        position: absolute;
+        top: 450px;
+        left: 10px; /* Adjust left position as needed */
+    }
+</style>
+
+<body>
+    <img id = 'after' src="./pngs/2020.png" alt="">
+    <img id = 'before' src="./pngs/2010.png" alt="">
+    <button onclick="myFunction()">click me!</button>
+    <p id="text">.PNG 2010</p>
+</body>
+
+<script>
+    var after = document.getElementById('after');
+    var before = document.getElementById('before');
+    var text = document.getElementById('text');
+    var beforeIsVisible = true;
+    function myFunction(){
+        if (beforeIsVisible) {
+            before.style.visibility = 'hidden';
+            text.textContent = '.PNG 2020!';
+            beforeIsVisible = false;   
+        }
+        else{
+            before.style.visibility = 'visible';
+            text.textContent = '.PNG 2010';
+            beforeIsVisible = true;
+        }
+    
+    }
+</script>
+
+</html>
