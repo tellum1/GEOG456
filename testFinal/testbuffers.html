@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Followill Leaflet HW 9/22</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+    integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+    crossorigin=""></script>
+    <script src="b10.js"></script>
+    <script src="b20.js"></script>
+    <script src="b30.js"></script>
+    <script src="b40.js"></script>
+    <script src="b50.js"></script>
+</head>
+    <style>
+        #map {
+            width: 100%;
+            height: 800px;
+            background-color: lightblue;
+        }
+    </style>
+
+<body>
+
+<h2>Annexations of the City of Atlanta</h2>
+<h3>Sarah Followill - Leaflet HW 9.22.22</h3>
+<h3 id="daYear">Year</h3>
+<input id="yearSlider" type="range" name="year" min="2024" max="2080" oninput="moveSlider(this.value)" value="2024">
+<br><br>
+<div id="map"></div>
+
+<script>
+    var map = L.map('map').setView([33.75, -84.39], 4);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    }).addTo(map);
+
+    function myStyle(feature) {
+        return {
+            color: getColor(feature.properties.year),
+            weight: 1,
+            opacity: 0.65
+        };
+    }
+
+    function getColor(year) {
+        return year < myCurrentSelectionYear + 1 ? "blue" : "transparent";
+    }
+
+    var geojsonb10 = L.geoJSON(b10, {style: myStyle}).addTo(map);
+    var geojsonb20 = L.geoJSON(b20, {style: myStyle}).addTo(map);
+    var geojsonb30 = L.geoJSON(b30, {style: myStyle}).addTo(map);
+    var geojsonb40 = L.geoJSON(b40, {style: myStyle}).addTo(map);
+    var geojsonb50 = L.geoJSON(b50, {style: myStyle}).addTo(map);
+
+    var myCurrentSelectionYear = 2024;
+
+    function moveSlider(value) {
+        document.getElementById('daYear').innerHTML = 'Year: ' + value;
+        myCurrentSelectionYear = value;
+        geojsonb10.setStyle(myStyle);
+        geojsonb20.setStyle(myStyle);
+        geojsonb30.setStyle(myStyle);
+        geojsonb40.setStyle(myStyle);
+        geojsonb50.setStyle(myStyle);
+    }
+
+    moveSlider(myCurrentSelectionYear);
+
+    window.onload = function() {
+        document.getElementById('yearSlider').value = 2024;  
+    };
+
+</script>   
+<br>
+<a href="https://dpcd-coaplangis.opendata.arcgis.com/datasets/coaplangis::annexations-3/explore?location=33.715549%2C-84.510605%2C11.81">
+    Link to Data Source
+</a>
+</br>
+</body>
+</html>

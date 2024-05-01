@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Townes Ellum Leaflet HW 7</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+    integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+    crossorigin=""></script>
+    <script src="EAB_infested_counties_clipped_smaller.js"></script>
+    <script src="EAB_EDD_pointdataclean.js"></script>
+    <script src="iNat_EAB_obs.js"></script>
+</head>
+<style>
+    #map {
+        width: 80%;
+        height: 600px;
+        background-color: lightblue;
+    }
+</style>
+
+<body>
+
+<h2>Emerald Ash Borer Data</h2>
+<h3>Townes Ellum - Final Project</h3>
+<h3 id="daYear">Year</h3>
+<input id="yearSlider" type="range" name="year" min="2001" max="2024" oninput="moveSlider(this.value)" value="2001">
+<br><br>
+<div id="map"></div>
+
+</body>
+<script>
+    var map = L.map('map').setView([35.75, -84.39], 4);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    }).addTo(map);
+
+    function myStyleCounty(features) {
+        return {
+            color: getColorCounty(features.properties.PPQ_EAB__6),
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 1
+        }
+    };
+
+    function myStylePointEDD(features) {
+        return {
+            fillColor: getColorPointEDD(features.properties.year),
+            color: "#000",
+            weight: 1,
+            opacity: 0,
+            fillOpacity: 0.8,
+            radius: 1
+        };
+    };
+
+    function myStylePointiNat(features) {
+        return {
+            fillColor: getColorPointiNat(features.properties.year),
+            color: "#000",
+            weight: 1,
+            opacity: 0,
+            fillOpacity: 0.8,
+            radius: 1
+        };
+    };
+
+    // function getColorCounty(d) {
+    //     return d < (myCurrentSelectionYear + 1) ? "green" : "transparent";
+    // }
+
+    function getColorCounty(d) {
+    var difference = myCurrentSelectionYear - d;
+    var transparency = 1 - (difference / 24); // Assuming the range is from 2001 to 2024
+
+    return d < (myCurrentSelectionYear + 1) ? "rgba(0, 128, 0, " + transparency + ")" : "transparent";
+}
+
+    function getColorPointEDD(d) {
+        return d < (myCurrentSelectionYear + 1) ? "black" : "transparent";
+    }
+
+    function getColorPointiNat(d) {
+        return d < (myCurrentSelectionYear + 1) ? "black" : "transparent";
+    }
+
+    var geojsonCounty = L.geoJSON(EAB_inf_counties, {style: myStyleCounty}).addTo(map);
+    var geojsonPointEDD = L.geoJSON(EAB_EDD_pointdataclean, {
+        pointToLayer: function (feature, latlng) {
+            return L.circleMarker(latlng, myStylePointEDD(feature));
+        }
+    }).addTo(map);
+    var geojsonPointiNat = L.geoJSON(iNat_EAB_obs, {
+        pointToLayer: function (feature, latlng) {
+            return L.circleMarker(latlng, myStylePointiNat(feature));
+        }
+    }).addTo(map);
+
+    var myCurrentSelectionYear = 2001;
+
+    function moveSlider(value) {
+        document.getElementById('daYear').innerHTML = 'Year: ' + value;
+        myCurrentSelectionYear = value;
+        geojsonCounty.resetStyle();
+        geojsonPointEDD.eachLayer(function (layer) {
+            layer.setStyle(myStylePointEDD(layer.feature));
+        });
+        geojsonPointiNat.eachLayer(function (layer) {
+            layer.setStyle(myStylePointiNat(layer.feature));
+        });
+
+
+    }
+   
+    moveSlider(myCurrentSelectionYear);
+
+    window.onload = function() {
+        document.getElementById('yearSlider').value = 1840;  
+    };
+
+</script>   
+<br>
+<a href="https://usda-mrp.maps.arcgis.com/home/item.html?id=1dfcee71467846d6ac8beea04d2cf6b3">
+    Link to Data Source (USDA)</a>
+</br>
+</html>
