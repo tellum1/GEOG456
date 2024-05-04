@@ -264,7 +264,7 @@
 
 function getColorCounty(d) {
     var difference = myCurrentSelectionYear - d;
-    var transparency = 1-(difference / 24); // Assuming the range is from 2001 to 2024
+    var transparency = 1-(difference / 24); // Assuming the range is from 2001 to 2024!
     var greenValue = 255 - Math.floor((255 - 80) * transparency);
 
     return d < (myCurrentSelectionYear + 1) ? "rgb(0, " + greenValue + ", 0)" : "transparent";
