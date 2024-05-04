@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Townes Ellum Final Project GEOG456</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+    integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+    crossorigin=""></script>
+    <script src="EAB_infested_counties_clipped_smaller.js"></script>
+    <script src="EAB_EDD_pointdataclean.js"></script>
+    <script src="iNat_EAB_obs.js"></script>
+    <script src="b10.js"></script>
+    <script src="b20.js"></script>
+    <script src="b30.js"></script>
+    <script src="b40.js"></script>
+    <script src="b50.js"></script>
+    <script src="iNat_ash_obs1.js"></script>
+</head>
+
+<style>
+    #map {
+        width: 60%;
+        margin: 40 0%; /* 20% margin on each side */
+        height: 550px;
+        top: 220;
+        background-color: lightblue;
+    }
+</style>
+
+<style>
+    body {
+        background-color: lightgreen;
+    }
+</style>
+
+<style>
+        .image-container {
+            position: absolute;
+            top: 160px;
+            left: 260px;
+            width: 280px; /* Set your desired width */
+            height: auto; /* Height will adjust based on width */
+            margin: 0 auto; /* Center horizontally */
+        }
+        .image-container img {
+            display: block;
+            width: 100%; /* Make the image fill the container */
+            height: auto; /* Maintain aspect ratio */
+        }
+    </style>
+
+<body>
+    <div class="image-container">
+        <img src="Agrilus_planipennis01.jpg" alt="Your Image">
+    </div>
+</body>
+
+<style>
+    /* CSS to style the image */
+    .image-container-damage {
+        position: absolute;
+        top: 345px;
+        right: 40px;
+        width: 450px; /* Set your desired width */
+        height: auto; /* Height will adjust based on width */
+        margin: 0 auto; /* Center horizontally */
+    }
+    .image-container-damage img {
+        display: block;
+        width: 100%; /* Make the image fill the container */
+        height: auto; /* Maintain aspect ratio */
+    }
+</style>
+
+<body>
+<div class="image-container-damage">
+    <img src="eab_damage.jpg" alt="Your Image">
+</div>
+
+<style>
+
+    .image-container-size {
+        position: absolute;
+        top: 615px;
+        right: 40px;
+        width: 450px; 
+        height: auto; 
+        margin: 0 auto; 
+    }
+    .image-container-size img {
+        display: block;
+        width: 100%; /* Make the image fill the container */
+        height: auto; /* Maintain aspect ratio */
+    }
+</style>
+
+<body>
+<div class="image-container-size">
+    <img src="eab_size.jpg" alt="Your Image">
+</div>
+
+</body>
+
+<style>
+    .legend {
+        font-family: 'Times New Roman', Times, serif;
+        background-color: white;
+        border: 1px solid black;
+        padding: 10px;
+        border-radius: 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        position: absolute;
+        top: 180px;
+        left: 50px;
+    }
+    .legend-item {
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+    }
+    .legend-color {
+        width: 10px;
+        height: 10px; 
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 5px;
+    }
+    .circle {
+        border-radius: 50%;
+    }
+    .separate-legend {
+        font-family: 'Times New Roman', Times, serif;
+        background-color: lightgreen;
+        padding: 10px;
+        border-radius: 0;
+        position: absolute;
+        top: 205px;
+        right: 190px;
+    }
+    .separate-legend-item {
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+    }
+    .separate-legend-color {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+</style>
+</head>
+<body>
+
+<div class="legend">
+<div class="legend-item">
+    <span class="legend-color circle" style="background-color: #fff200; border-color: black;"></span> Ash distribution
+</div>
+<div class="legend-item">
+    <span class="legend-color circle" style="background-color: red; width: 5px; height: 5px"></span> EAB observations
+</div>
+<div class="legend-item">
+    <span class="legend-color circle" style="background-color: #06ff06; width: 0px; height: 0px;"></span> Infested counties:
+</div>
+<div class="legend-item">
+    <span class="legend-color" style="background-color: #06ff06; width: 10px; height: 10px;"></span> earliest infested
+</div>
+<div class="legend-item">
+    <span class="legend-color" style="background-color: #234f1e; width: 10px; height: 10px;"></span> most recently infested
+</div>
+</div>
+
+<div class="separate-legend">
+<div class="separate-legend-item">
+    <span class="separate-legend-color" style="background-color: transparent;"></span>  ← Past to present distribution (county-level)
+</div>
+<div class="separate-legend-item">
+    <span class="separate-legend-color" style="background-color: transparent;"></span>     
+</div>
+<div class="separate-legend-item">
+    <span class="separate-legend-color" style="background-color: transparent;"></span> 
+</div>
+<div class="separate-legend-item">
+    <span class="separate-legend-color" style="background-color: transparent;"></span>  ← Future predicted distribution
+</div>
+</div>
+
+</body>
+
+<style>
+    .container {
+        text-align: center;
+    }
+</style>
+
+<div class="container">
+    <h1>Spread of the Emerald Ash Borer in the United States: Past, Present and...Future?</h1>
+    <h2>GEOG456 Final Project</h2>
+    <h3>Townes Ellum </h3>
+    <h3 id="daYear">Year</h3>
+    <input id="yearSlider" type="range" name="year" min="2001" max="2024" oninput="moveSlider(this.value)" value="2001">
+    <h3 id="daYearTest">Year</h3>
+    <input id="yearSlider1" type="range" name="year1" min="2024" max="2074" step="10" oninput="moveSlider1(this.value)" value="2024">
+    <br><br>
+</div>
+
+<div id="map"></div>
+
+</body>
+
+<script>
+    var map = L.map('map').setView([33.25, -95.39], 4);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    }).addTo(map);
+
+    function myStyleCounty(features) {
+        return {
+            color: getColorCounty(features.properties.PPQ_EAB__6),
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 1
+        }
+    };
+
+    function myStylePointEDD(features) {
+        return {
+            fillColor: getColorPointEDD(features.properties.year),
+            color: "#8a00c2",
+            weight: 1,
+            opacity: 0,
+            fillOpacity: 0.8,
+            radius: 1
+        };
+    };
+
+    function myStylePointiNat(features) {
+        return {
+            fillColor: getColorPointiNat(features.properties.year),
+            color: "#8a00c2",
+            weight: 1,
+            opacity: 0,
+            fillOpacity: 0.8,
+            radius: 1
+        };
+    };
+
+    function myStylePointiNatASH(features) {
+        return {
+            fillColor: getColorPointiNatASH(features.properties.year),
+            color: "#0000ff",
+            weight: 1,
+            opacity: 0,
+            fillOpacity: 0.8,
+            radius: 2
+        };
+    };
+
+function getColorCounty(d) {
+    var difference = myCurrentSelectionYear - d;
+    var transparency = 1-(difference / 24); // Assuming the range is from 2001 to 2024!
+    var greenValue = 255 - Math.floor((255 - 80) * transparency);
+
+    return d < (myCurrentSelectionYear + 1) ? "rgb(0, " + greenValue + ", 0)" : "transparent";
+}
+
+    function getColorPointEDD(d) {
+        return d < (myCurrentSelectionYear + 1) ? "red" : "transparent";
+    }
+
+    function getColorPointiNat(d) {
+        return d < (myCurrentSelectionYear + 1) ? "red" : "transparent";
+    }
+
+    function getColorPointiNatASH(d) {
+        return d < (myCurrentSelectionYear + 1) ? "#fff200" : "#fff200";
+    }
+
+    function myStyleBuffer(feature) {
+        return {
+            color: getColorBuffer(feature.properties.year),
+            weight: 1,
+            opacity: 0.65
+        };
+    }
+
+    function getColorBuffer(year1) {
+        return year1 < myCurrentSelectionYearTest + 1 ? "green" : "transparent";
+    }
+
+    var geojsonb10 = L.geoJSON(b10, {style: myStyleBuffer}).addTo(map);
+    var geojsonb20 = L.geoJSON(b20, {style: myStyleBuffer}).addTo(map);
+    var geojsonb30 = L.geoJSON(b30, {style: myStyleBuffer}).addTo(map);
+    var geojsonb40 = L.geoJSON(b40, {style: myStyleBuffer}).addTo(map);
+    var geojsonb50 = L.geoJSON(b50, {style: myStyleBuffer}).addTo(map);
+
+    var geojsonPointiNatASH = L.geoJSON(iNat_ash_obs1, {
+        pointToLayer: function (feature, latlng) {
+            return L.circleMarker(latlng, myStylePointiNatASH(feature));
+        }
+    }).addTo(map);
+    var geojsonCounty = L.geoJSON(EAB_inf_counties, {style: myStyleCounty}).addTo(map);
+    var geojsonPointEDD = L.geoJSON(EAB_EDD_pointdataclean, {
+        pointToLayer: function (feature, latlng) {
+            return L.circleMarker(latlng, myStylePointEDD(feature));
+        }
+    }).addTo(map);
+    var geojsonPointiNat = L.geoJSON(iNat_EAB_obs, {
+        pointToLayer: function (feature, latlng) {
+            return L.circleMarker(latlng, myStylePointiNat(feature));
+        }
+    }).addTo(map);
+
+    var myCurrentSelectionYear = 2001;
+
+    var myCurrentSelectionYearTest = 2024;
+
+    function moveSlider(value) {
+        document.getElementById('daYear').innerHTML = 'Year: ' + value;
+        geojsonPointiNatASH.eachLayer(function (layer) {
+            layer.setStyle(myStylePointiNatASH(layer.feature));
+        });
+        myCurrentSelectionYear = value;
+        geojsonCounty.setStyle(myStyleCounty);
+        geojsonPointEDD.eachLayer(function (layer) {
+            layer.setStyle(myStylePointEDD(layer.feature));
+        });
+        geojsonPointiNat.eachLayer(function (layer) {
+            layer.setStyle(myStylePointiNat(layer.feature));
+        });
+    }
+   
+    moveSlider(myCurrentSelectionYear);
+
+    function moveSlider1(value) {
+        document.getElementById('daYearTest').innerHTML = 'Year: ' + value;
+        myCurrentSelectionYearTest = value;
+        geojsonb10.setStyle(myStyleBuffer);
+        geojsonb20.setStyle(myStyleBuffer);
+        geojsonb30.setStyle(myStyleBuffer);
+        geojsonb40.setStyle(myStyleBuffer);
+        geojsonb50.setStyle(myStyleBuffer); 
+    }
+
+    moveSlider1(myCurrentSelectionYearTest);
+
+    window.onload = function() {
+    initializeSlider1();
+    initializeSlider2();
+};
+
+function initializeSlider1() {
+    document.getElementById('yearSlider').value = 1840;
+}
+
+function initializeSlider2() {
+    document.getElementById('yearSlider1').value = 1840;
+}
+
+</script>   
+<br>
+<a href="https://tellum1.github.io/GEOG456/TownesEllum_FinalProject_GEOG456/datasources.html">
+    Link to Data Sources</a>
+</br>
+
+<body>
+<h3>History of the Emerald Ash Borer in the United States:</h3>
+<div>
+<p>The emerald ash borer (Agrilus planipennis) is a small wood-boring beetle native to Korea, Japan, Mongolia, Taiwan, and parts of eastern China and Russia. In the past two decades, the emerald ash borer has become a highly invasive and destructive species in the United States. This species was first detected in southeastern Michigan in 2002, and experts believe that the point of introduction was likely the city of Detroit. Detroit is a major shipping center in the Great Lakes region, and it is believed that the emerald ash borer was likely introduced via wooden shipping crates or packing materials. As of 2024, this invasive species has spread to 36 states and the District of Columbia. </p>
+</div>
+<h3>Life Cycle:</h3>
+<p>The life cycle of the EAB revolves entirely around the ash tree. Adult beetles chew out of the tree in late spring. After feeding on ash leaves for 5-7 days, they begin to mate. After another 5-7 days, females will lay eggs in crevices in the bark of the tree. Around 2 weeks after eggs are laid, larva hatch and begin to feed on the inner bark and outer trunk of the tree. They feed through late summer and fall, and in late fall excavate cells in the outer bark or sapwood of the tree. The EAB overwinter in these cells as prepupae until late spring, at which point they emerge as adult beetles and begin the process anew. </p>
+</body>
+<h3>Ecological Impact:</h3>
+<p>The EAB infests all species of ash in the U.S., and ash trees infested by EAB will generally die within 1-3 years of infestation. Since the introduction of this insect in 2002, the EAB has killed an estimated tens of millions of ash trees across its range.</p>
+
+</html>
