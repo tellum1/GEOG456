@@ -14,12 +14,12 @@
     <script src="EAB_infested_counties_clipped_smaller.js"></script>
     <script src="EAB_EDD_pointdataclean.js"></script>
     <script src="iNat_EAB_obs.js"></script>
-    <script src="iNat_ash_obs1.js"></script>
     <script src="b10.js"></script>
     <script src="b20.js"></script>
     <script src="b30.js"></script>
     <script src="b40.js"></script>
     <script src="b50.js"></script>
+    <script src="iNat_ash_obs1.js"></script>
 </head>
 
 <style>
@@ -323,9 +323,9 @@ function getColorCounty(d) {
 
     function moveSlider(value) {
         document.getElementById('daYear').innerHTML = 'Year: ' + value;
-        geojsonPointiNatASH.eachLayer(function (layer) {
-            layer.setStyle(myStylePointiNatASH(layer.feature));
-        });
+        // geojsonPointiNatASH.eachLayer(function (layer) {
+        //     layer.setStyle(myStylePointiNatASH(layer.feature));
+        // });
         myCurrentSelectionYear = value;
         geojsonCounty.setStyle(myStyleCounty);
         geojsonPointEDD.eachLayer(function (layer) {
@@ -333,6 +333,9 @@ function getColorCounty(d) {
         });
         geojsonPointiNat.eachLayer(function (layer) {
             layer.setStyle(myStylePointiNat(layer.feature));
+        });
+        geojsonPointiNatASH.eachLayer(function (layer) {
+            layer.setStyle(myStylePointiNatASH(layer.feature));
         });
     }
    
